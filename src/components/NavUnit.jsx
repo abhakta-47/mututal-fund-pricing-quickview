@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, TextField } from "@material-ui/core";
 
 function NavUnit({ navUnits, setNavUnits }) {
   const [navUnit, setNavUnit] = useState(navUnits);
@@ -18,7 +19,7 @@ function NavUnit({ navUnits, setNavUnits }) {
   return (
     <div>
       <h3>Change Current Unit :: </h3>
-      <input
+      <TextField
         type="number"
         name="NavUnits"
         placeHolder="enter current nav units"
@@ -26,7 +27,9 @@ function NavUnit({ navUnits, setNavUnits }) {
         value={navUnit}
         onChange={(e) => setNavUnit(e.target.value)}
       />
-      <button onClick={handleButton}>Save</button>
+      <Button variant="contained" color="primary" onClick={handleButton}>
+        Save
+      </Button>
     </div>
   );
 }

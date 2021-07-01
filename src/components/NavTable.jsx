@@ -1,6 +1,6 @@
 import React from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   TableContainer,
   Table,
@@ -9,6 +9,7 @@ import {
   TableRow,
   TableHead,
   TablePagination,
+  Paper,
 } from "@material-ui/core";
 
 import { green, red } from "@material-ui/core/colors";
@@ -16,9 +17,27 @@ import { green, red } from "@material-ui/core/colors";
 import { ArrowUpward, ArrowDownward } from "@material-ui/icons";
 import NavUnit from "./NavUnit";
 
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 const useStyles = makeStyles({
   table: {
-    // minWidth: 650,
+    // minWidth: 700,
   },
 });
 
@@ -50,29 +69,27 @@ function NavTable({
   };
 
   return (
-    // <TableContainer component={Paper}>
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell align="right">Nav value</TableCell>
-            <TableCell align="right">Current Value</TableCell>
-            <TableCell align="right">Value Change</TableCell>
+            <StyledTableCell>Date</StyledTableCell>
+            <StyledTableCell align="right">Nav value</StyledTableCell>
+            <StyledTableCell align="right">Current Value</StyledTableCell>
+            <StyledTableCell align="right">Value Change</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rowPage.map((row) => (
-            <TableRow key={row.date}>
-              <TableCell component="th" scope="row">
+            <StyledTableRow key={row.date}>
+              <StyledTableCell component="th" scope="row">
                 {row.date}
-              </TableCell>
-              <TableCell align="right">{row.nav}</TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.nav}</StyledTableCell>
+              <StyledTableCell align="right">
                 {(row.nav * navUnits).toFixed(2)}
-              </TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="right">
                 {(row.diff * navUnits).toFixed(2)}
                 <span>
                   {row.diff >= 0 ? (
@@ -81,8 +98,8 @@ function NavTable({
                     <ArrowDownward style={{ color: red[500] }} />
                   )}
                 </span>
-              </TableCell>
-            </TableRow>
+              </StyledTableCell>
+            </StyledTableRow>
           ))}
         </TableBody>
         <TablePagination
