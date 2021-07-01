@@ -29,8 +29,8 @@ function NavChart({ navData }) {
           <LineSeries valueField="nav" argumentField="date" />
           <ZoomAndPan />
           <Title text="Nav Changes" />
+          <Animation />
         </Chart>
-        {/* <Animation /> */}
       </PluginHost>
     </Paper>
   );

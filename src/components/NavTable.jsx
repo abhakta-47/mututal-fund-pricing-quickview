@@ -15,7 +15,6 @@ import {
 import { green, red } from "@material-ui/core/colors";
 
 import { ArrowUpward, ArrowDownward } from "@material-ui/icons";
-import NavUnit from "./NavUnit";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
