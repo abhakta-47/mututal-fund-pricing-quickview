@@ -15,25 +15,36 @@ import { green, red } from "@material-ui/core/colors";
 
 import { ArrowUpward, ArrowDownward } from "@material-ui/icons";
 
-import Paper from "@material-ui/core/Paper";
-
 const useStyles = makeStyles({
   table: {
     // minWidth: 650,
   },
 });
 
-function NavTable({ dataRows }) {
+function NavTable({
+  navDataRows,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowPerPage,
+  rowPage,
+  setRowPage,
+}) {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setRowPage(
+      navDataRows.slice(newPage * rowsPerPage, (newPage + 1) * rowsPerPage)
+    );
   };
 
   const handleRowPerPageChange = (event) => {
     setRowPerPage(event.target.value);
+    const newRowPerPage = event.target.value;
+    setRowPage(
+      navDataRows.slice(page * newRowPerPage, (page + 1) * newRowPerPage)
+    );
   };
 
   return (
@@ -49,29 +60,27 @@ function NavTable({ dataRows }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dataRows
-            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-            .map((row, index) => (
-              <TableRow key={row.date}>
-                <TableCell component="th" scope="row">
-                  {row.date}
-                </TableCell>
-                <TableCell align="right">{row.nav}</TableCell>
-                <TableCell align="right">
-                  {(dataRows[index + 1].nav - row.nav).toFixed(2)}
-                  <span>
-                    {dataRows[index + 1].nav - row.nav >= 0 ? (
-                      <ArrowUpward style={{ color: green[500] }} />
-                    ) : (
-                      <ArrowDownward style={{ color: red[500] }} />
-                    )}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
+          {rowPage.map((row, index) => (
+            <TableRow key={row.date}>
+              <TableCell component="th" scope="row">
+                {row.date}
+              </TableCell>
+              <TableCell align="right">{row.nav}</TableCell>
+              <TableCell align="right">
+                {row.diff}
+                <span>
+                  {row.diff >= 0 ? (
+                    <ArrowUpward style={{ color: green[500] }} />
+                  ) : (
+                    <ArrowDownward style={{ color: red[500] }} />
+                  )}
+                </span>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
         <TablePagination
-          count={dataRows.length}
+          count={navDataRows.length}
           page={page}
           onChangePage={handleChangePage}
           rowsPerPage={rowsPerPage}
