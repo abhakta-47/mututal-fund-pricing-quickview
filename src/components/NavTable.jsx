@@ -14,6 +14,7 @@ import {
 import { green, red } from "@material-ui/core/colors";
 
 import { ArrowUpward, ArrowDownward } from "@material-ui/icons";
+import NavUnit from "./NavUnit";
 
 const useStyles = makeStyles({
   table: {
@@ -29,6 +30,7 @@ function NavTable({
   setRowPerPage,
   rowPage,
   setRowPage,
+  navUnits,
 }) {
   const classes = useStyles();
 
@@ -56,18 +58,22 @@ function NavTable({
           <TableRow>
             <TableCell>Date</TableCell>
             <TableCell align="right">Nav value</TableCell>
-            <TableCell align="right">Nav diff</TableCell>
+            <TableCell align="right">Current Value</TableCell>
+            <TableCell align="right">Value Change</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowPage.map((row, index) => (
+          {rowPage.map((row) => (
             <TableRow key={row.date}>
               <TableCell component="th" scope="row">
                 {row.date}
               </TableCell>
               <TableCell align="right">{row.nav}</TableCell>
               <TableCell align="right">
-                {row.diff}
+                {(row.nav * navUnits).toFixed(2)}
+              </TableCell>
+              <TableCell align="right">
+                {(row.diff * navUnits).toFixed(2)}
                 <span>
                   {row.diff >= 0 ? (
                     <ArrowUpward style={{ color: green[500] }} />

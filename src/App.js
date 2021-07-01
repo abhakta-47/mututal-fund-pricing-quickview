@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 
 import NavTable from "./components/NavTable";
 import NavChart from "./components/NavChart";
+import NavUnit from "./components/NavUnit";
 
 function App() {
   const [navData, setNavData] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowPerPage] = React.useState(10);
   const [rowPage, setRowPage] = React.useState([]);
+  const [navUnits, setNavUnits] = React.useState(100);
 
   useEffect(() => {
+    const savedNavUnits = JSON.parse(localStorage.getItem("navUnits"));
+    if (savedNavUnits) setNavUnits(savedNavUnits);
+
     fetch("https://api.mfapi.in/mf/102885")
       .then((res) => res.json())
       .then((data) => {
@@ -28,7 +33,7 @@ function App() {
         );
       })
       .catch((err) => console.log(err));
-  }, [NavTable]);
+  }, []);
 
   return (
     <div className="App">
@@ -40,7 +45,9 @@ function App() {
         setRowPerPage={setRowPerPage}
         rowPage={rowPage}
         setRowPage={setRowPage}
+        navUnits={parseFloat(navUnits)}
       />
+      <NavUnit navUnits={navUnits} setNavUnits={setNavUnits} />
       <NavChart navData={rowPage} />
     </div>
   );
