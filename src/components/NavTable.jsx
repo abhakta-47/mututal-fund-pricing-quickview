@@ -26,6 +26,16 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
+const FlexTableCell = withStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "end",
+  },
+}))(StyledTableCell);
+
 const StyledTableRow = withStyles((theme) => ({
   root: {
     "&:nth-of-type(odd)": {
@@ -72,32 +82,36 @@ function NavTable({
       <Table className={classes.table} aria-label="caption table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Date</StyledTableCell>
-            <StyledTableCell align="right">Nav value</StyledTableCell>
-            <StyledTableCell align="right">Current Value</StyledTableCell>
-            <StyledTableCell align="right">Value Change</StyledTableCell>
+            <StyledTableCell align="left">Date</StyledTableCell>
+            <StyledTableCell align="center">Nav value</StyledTableCell>
+            <StyledTableCell align="right">
+              Current Value (Change)
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rowPage.map((row) => (
             <StyledTableRow key={row.date}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell align="left" component="th" scope="row">
                 {row.date}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.nav}</StyledTableCell>
-              <StyledTableCell align="right">
-                {(row.nav * navUnits).toFixed(2)}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {(row.diff * navUnits).toFixed(2)}
-                <span>
-                  {row.diff >= 0 ? (
-                    <ArrowUpward style={{ color: green[500] }} />
-                  ) : (
-                    <ArrowDownward style={{ color: red[500] }} />
-                  )}
-                </span>
-              </StyledTableCell>
+              <StyledTableCell align="center">{row.nav}</StyledTableCell>
+              <FlexTableCell align="right">
+                <div style={{ paddingRight: "1rem" }}>
+                  {(row.nav * navUnits).toFixed(2)}{" "}
+                </div>
+                <div>
+                  ({(row.diff * navUnits).toFixed(2)}
+                  <span>
+                    {row.diff >= 0 ? (
+                      <ArrowUpward style={{ color: green[500] }} />
+                    ) : (
+                      <ArrowDownward style={{ color: red[500] }} />
+                    )}
+                  </span>
+                  )
+                </div>
+              </FlexTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
