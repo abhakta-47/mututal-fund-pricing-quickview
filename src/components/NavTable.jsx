@@ -26,16 +26,6 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const FlexTableCell = withStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "end",
-  },
-}))(StyledTableCell);
-
 const StyledTableRow = withStyles((theme) => ({
   root: {
     "&:nth-of-type(odd)": {
@@ -79,14 +69,17 @@ function NavTable({
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="caption table">
+      <Table
+        className={classes.table}
+        aria-label="caption table"
+        style={{ overflowX: "auto" }}
+      >
         <TableHead>
           <TableRow>
             <StyledTableCell align="left">Date</StyledTableCell>
             <StyledTableCell align="center">Nav value</StyledTableCell>
-            <StyledTableCell align="right">
-              Current Value (Change)
-            </StyledTableCell>
+            <StyledTableCell align="center">Current Value</StyledTableCell>
+            <StyledTableCell align="right">Change</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -96,22 +89,19 @@ function NavTable({
                 {row.date}
               </StyledTableCell>
               <StyledTableCell align="center">{row.nav}</StyledTableCell>
-              <FlexTableCell align="right">
-                <div style={{ paddingRight: "1rem" }}>
-                  {(row.nav * navUnits).toFixed(2)}{" "}
-                </div>
-                <div>
-                  ({(row.diff * navUnits).toFixed(2)}
-                  <span>
-                    {row.diff >= 0 ? (
-                      <ArrowUpward style={{ color: green[500] }} />
-                    ) : (
-                      <ArrowDownward style={{ color: red[500] }} />
-                    )}
-                  </span>
-                  )
-                </div>
-              </FlexTableCell>
+              <StyledTableCell align="center">
+                {(row.nav * navUnits).toFixed(2)}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                {(row.diff * navUnits).toFixed(2)}
+                <span>
+                  {row.diff >= 0 ? (
+                    <ArrowUpward style={{ color: green[500] }} />
+                  ) : (
+                    <ArrowDownward style={{ color: red[500] }} />
+                  )}
+                </span>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
