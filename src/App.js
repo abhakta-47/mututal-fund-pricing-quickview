@@ -57,7 +57,7 @@ function App() {
           Object({
             date: d.date.substr(0, 5),
             nav: parseFloat(d.nav),
-            diff: (data.data[i + 1].nav - data.data[i].nav).toPrecision(2),
+            diff: (data.data[i].nav - data.data[i+1].nav).toPrecision(2),
           })
         );
         // console.log(formData);
