@@ -69,23 +69,27 @@ function NavTable({
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="caption table">
+      <Table
+        className={classes.table}
+        aria-label="caption table"
+        style={{ overflowX: "auto" }}
+      >
         <TableHead>
           <TableRow>
-            <StyledTableCell>Date</StyledTableCell>
-            <StyledTableCell align="right">Nav value</StyledTableCell>
-            <StyledTableCell align="right">Current Value</StyledTableCell>
-            <StyledTableCell align="right">Value Change</StyledTableCell>
+            <StyledTableCell align="left">Date</StyledTableCell>
+            <StyledTableCell align="center">Nav value</StyledTableCell>
+            <StyledTableCell align="center">Current Value</StyledTableCell>
+            <StyledTableCell align="right">Change</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rowPage.map((row) => (
             <StyledTableRow key={row.date}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell align="left" component="th" scope="row">
                 {row.date}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.nav}</StyledTableCell>
-              <StyledTableCell align="right">
+              <StyledTableCell align="center">{row.nav}</StyledTableCell>
+              <StyledTableCell align="center">
                 {(row.nav * navUnits).toFixed(2)}
               </StyledTableCell>
               <StyledTableCell align="right">

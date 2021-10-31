@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, TextField } from "@material-ui/core";
 
-function NavUnit({ navUnits, setNavUnits }) {
+function NavUnit({ navUnits, setNavUnits, handleCloseModal }) {
   const [navUnit, setNavUnit] = useState(navUnits);
 
   useEffect(() => {
@@ -13,11 +13,19 @@ function NavUnit({ navUnits, setNavUnits }) {
     if (!isNaN(parseFloat(navUnit))) {
       setNavUnits(navUnit);
       localStorage.setItem("navUnits", JSON.stringify(navUnit));
+      handleCloseModal();
     } else alert("only number allowed");
   };
 
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: "white",
+        width: "max-content",
+        padding: "2rem 1rem",
+      }}
+    >
       <h3>Change Current Unit :: </h3>
       <TextField
         type="number"

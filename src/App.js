@@ -9,9 +9,11 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
+  Tooltip,
+  Modal,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +35,15 @@ function App() {
   const [rowsPerPage, setRowPerPage] = React.useState(10);
   const [rowPage, setRowPage] = React.useState([]);
   const [navUnits, setNavUnits] = React.useState(100);
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     const savedNavUnits = JSON.parse(localStorage.getItem("navUnits"));
@@ -46,7 +57,7 @@ function App() {
           Object({
             date: d.date.substr(0, 5),
             nav: parseFloat(d.nav),
-            diff: (data.data[i + 1].nav - data.data[i].nav).toPrecision(2),
+            diff: (data.data[i].nav - data.data[i+1].nav).toPrecision(2),
           })
         );
         // console.log(formData);
@@ -65,10 +76,9 @@ function App() {
           <Typography variant="h6" className={classes.title}>
             L24G SBI EHFRG
           </Typography>
-          <Button variant="contained" color="primary">
-            change <br />
-            nav unit
-          </Button>
+          <Tooltip title="Settings">
+            <SettingsIcon onClick={handleOpenModal} />
+          </Tooltip>
         </Toolbar>
       </AppBar>
 
@@ -85,9 +95,18 @@ function App() {
         />
       </div>
 
-      <div className="row">
-        <NavUnit navUnits={navUnits} setNavUnits={setNavUnits} />
-      </div>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <NavUnit
+          navUnits={navUnits}
+          setNavUnits={setNavUnits}
+          handleCloseModal={handleCloseModal}
+        />
+      </Modal>
 
       <div className="row">
         <NavChart navData={rowPage} />
